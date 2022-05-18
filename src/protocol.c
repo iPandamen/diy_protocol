@@ -21,7 +21,7 @@ void protocol_del(struct _protocol* _protocol) {
 int protocol_send(struct _protocol* _protocol, void* _content, void *_to) {
 
   if(_protocol && _protocol->_ops && _protocol->_ops->_send) {
-    _protocol->_ops->_send(_protocol, _content, _to);
+    return  _protocol->_ops->_send(_protocol, _content, _to);
   }
   return 0;
 }
@@ -36,10 +36,11 @@ void *protocol_recv(struct _protocol* _protocol, void *_from) {
 }
 
 int protocol_pack(struct _protocol* _protocol, void *_content) {
+  int rc = -1;
   if(_protocol && _protocol->_ops && _protocol->_ops->_pack) {
-    _protocol->_ops->_pack(_protocol, _content);
+    rc = _protocol->_ops->_pack(_protocol, _content);
   }
-  return 0;
+  return rc;
 }
 
 void * protocol_unpack(struct _protocol* _protocol) {
