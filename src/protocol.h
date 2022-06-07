@@ -19,8 +19,8 @@ typedef struct _protocol_ops{
   int (*_pack)(struct _protocol* _protocol, void *_content);
   void *(*_unpack)(struct _protocol* _protocol);
 
-  int (*_send)(struct _protocol* _protocol, void* _content, void *_to);
-  void* (*_recv)(struct _protocol* _protocol, void *_from);
+  int (*_send)(struct _protocol* _protocol, void *_to);
+  int (*_recv)(struct _protocol* _protocol, void *_from);
 
   int (*_print)(struct _protocol* _protocol);
 
@@ -28,6 +28,7 @@ typedef struct _protocol_ops{
 
 typedef struct _protocol{
 
+  void *_dest;
   int _package_len;
   uint8_t _package[PACKAGE_BUF_SIZE];
   
@@ -40,10 +41,11 @@ extern void protocol_del(struct _protocol* _protocol);
 extern int protocol_pack(struct _protocol* _protocol, void *_content);
 extern void* protocol_unpack(struct _protocol* _protocol);
 
-extern int protocol_send(struct _protocol* _protocol, void* _content, void* _to);
-extern void* protocol_recv(struct _protocol* _protocol, void* _from);
+extern int protocol_send(struct _protocol* _protocol, void* _to);
+extern int protocol_recv(struct _protocol* _protocol, void* _from);
 
 extern int protocol_print(struct _protocol* _protocol);
 
 #endif /* __PROTOCOL_H__ */
+
 

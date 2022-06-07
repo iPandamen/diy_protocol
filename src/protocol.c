@@ -18,21 +18,21 @@ void protocol_del(struct _protocol* _protocol) {
   }
 }
 
-int protocol_send(struct _protocol* _protocol, void* _content, void *_to) {
+int protocol_send(struct _protocol* _protocol, void *_to) {
 
   if(_protocol && _protocol->_ops && _protocol->_ops->_send) {
-    return  _protocol->_ops->_send(_protocol, _content, _to);
+    return _protocol->_ops->_send(_protocol, _to);
   }
   return 0;
 }
 
-void *protocol_recv(struct _protocol* _protocol, void *_from) {
+int protocol_recv(struct _protocol* _protocol, void *_from) {
 
-  void *content= NULL;
+  int rc = -1;
   if(_protocol && _protocol->_ops && _protocol->_ops->_recv) {
-    content = _protocol->_ops->_recv(_protocol, _from);
+    rc = _protocol->_ops->_recv(_protocol, _from);
   }
-  return content;
+  return rc;
 }
 
 int protocol_pack(struct _protocol* _protocol, void *_content) {
@@ -59,4 +59,5 @@ int protocol_print(struct _protocol* _protocol) {
   }
   return ret;
 }
+
 
